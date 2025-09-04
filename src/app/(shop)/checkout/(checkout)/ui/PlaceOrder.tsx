@@ -5,10 +5,13 @@ import clsx from "clsx";
 import { useAdressStore, useCartStore } from "../../../../../store";
 import { currencyFormat, sleep } from "../../../../../utils";
 import { placeOrder } from "../../../../../actions";
+import { useRouter } from "next/navigation";
 
 export const PlaceOrder = () => {
 
+    const router = useRouter();
     const [loaded, setLoaded] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
     const address = useAdressStore(state => state.address);
@@ -19,6 +22,7 @@ export const PlaceOrder = () => {
     const total = useCartStore(state => state.getSummaryInformation().total);
 
     const cart = useCartStore( state => state.cart );
+    const cleanCart = useCartStore( state => state.cleanCart );
 
     useEffect(() => {
         setLoaded(true)
@@ -34,12 +38,16 @@ export const PlaceOrder = () => {
             size: product.size,
         }))
 
-        console.log({address, productsToOrder});
 
         const res = await placeOrder(productsToOrder, address)
-        console.log({res});
+        if(!res.ok) {
+            setIsPlacingOrder(false);
+            setErrorMessage(res.message);
+            return;
+        }
 
-        setIsPlacingOrder(false);
+        cleanCart();
+        router.replace(`/orders/${res.order?.id}`);
     };
 
     if(!loaded) {
@@ -86,9 +94,9 @@ export const PlaceOrder = () => {
                     <span className="text-xs">Al hacer clic en &quot;Confirmar orden&quot; aceptas nuestros términos y condiciones</span>
                 </p>
 
-                {/* <p className="text-red-500">
-                    Error de creacion.
-                </p> */}
+                <p className="text-red-500">
+                    {errorMessage}
+                </p>
 
                 <button 
                     // href="/orders/123"
