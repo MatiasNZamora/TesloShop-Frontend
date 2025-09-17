@@ -9,8 +9,8 @@ export default async function AddressPage() {
     const countries = await getCountries();
 
     const session = await auth();
-    if(!session.user) {
-        <h3 className='text-5xl'> 500 - No hay session de usuario </h3>
+    if(!session?.user) {
+        return <h3 className='text-5xl'> 500 - No hay session de usuario </h3>
     };
 
     const userAddress = await getUserAddres(session.user.id);
@@ -19,7 +19,7 @@ export default async function AddressPage() {
 
             <div className="w-full  xl:w-[1000px] flex flex-col justify-center text-left">
                 <Title className={ titleFont.className } title="Dirección" subtitle="Dirección de entrega" />
-                <AddressForm countries={ countries } userStoreAddres={ userAddress } />
+                <AddressForm countries={ countries } userStoreAddres={ userAddress ?? undefined } />
             </div>
 
         </div>

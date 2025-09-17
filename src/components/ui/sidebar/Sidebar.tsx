@@ -16,7 +16,6 @@ export const Sidebar = () => {
 
     const isAdmin = (session?.user.role === 'admin');
 
-    // console.log(isAdmin);
 
     return (
         <div>
@@ -41,8 +40,8 @@ export const Sidebar = () => {
             }>
                 <IoCloseOutline
                     size={50}
-                    className="absolute top-5 right-5 cursor-pointer"
                     onClick={closeMenu}
+                    className="absolute top-5 right-5 cursor-pointer"
                 />
                 {/* input de search */}
 
@@ -82,7 +81,7 @@ export const Sidebar = () => {
 
                         <button
                             onClick={ () => logout() }
-                            className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+                            className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all cursor-pointer"
                         >
                             <IoLogOutOutline size={30} />
                             <span className="ml-3 text-xl"> Salir </span>
@@ -106,7 +105,8 @@ export const Sidebar = () => {
                         <>
                             <div className="w-full h-px bg-gray-200 my-10" />
                             <Link
-                                href="/"
+                                onClick={closeMenu}
+                                href="/admin/products"
                                 className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
                             >
                                 <IoShirtOutline size={30} />
@@ -114,7 +114,8 @@ export const Sidebar = () => {
                             </Link>
 
                             <Link
-                                href="/"
+                                onClick={closeMenu}
+                                href="/admin/orders"
                                 className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
                             >
                                 <IoTicketOutline size={30} />
@@ -122,7 +123,8 @@ export const Sidebar = () => {
                             </Link>
 
                             <Link
-                                href="/"
+                                onClick={closeMenu}
+                                href="/admin/users"
                                 className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
                             >
                                 <IoPeopleOutline size={30} />

@@ -70,7 +70,6 @@ export const authConfig: NextAuthConfig = {
                 // regresa el usuario sin el password
                 const { password: _ , ...rest } = user;
 
-                // console.log( { rest } );
                 return rest;
             },
         }),

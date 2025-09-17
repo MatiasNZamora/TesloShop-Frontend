@@ -1,0 +1,49 @@
+Resumen de cambios aplicados desde el primer proceso de build
+
+1) ProductForm (admin)
+- Archivo: src/app/(shop)/admin/product/[slug]/ProductForm.tsx
+  - Evité errores de join/map con encadenamiento opcional y valores por defecto.
+  - Ajusté tipos: gender → 'men' | 'women' | 'kid' | 'unisex'.
+  - Reemplacé defaultValues por campos explícitos y añadí images: undefined.
+
+2) Rutas Next 15 (params y revalidate)
+- Archivo: src/app/(shop)/product/[slug]/page.tsx
+  - revalidate a literal 1209600 (14 días).
+  - params como Promise<{ slug: string }> (await) en página y generateMetadata.
+  - notFound() si falta slug o product.
+  - <StockLabel slug={slug} />.
+
+- Archivo: src/app/(shop)/admin/product/[slug]/page.tsx
+  - params como Promise y await.
+
+- Archivo: src/app/(shop)/admin/products/page.tsx
+  - searchParams como Promise y await.
+
+3) Null-checks de sesión (auth)
+- Archivos: get-order-by-id.ts, get-order-by-user.ts, get-paginated-orders.ts,
+  place-order.ts, change-user-role.ts, get-paginated-users.ts, admin/layout.tsx.
+  - Uso de session?.user / session?.user?.role y retornos seguros.
+
+4) place-order
+- Archivo: src/actions/order/place-order.ts
+  - Aserción no nula para price en createMany.
+  - Null-check para userId.
+
+5) Páginas de órdenes
+- admin/orders/page.tsx y orders/page.tsx: OrderAddress?.firstName/?.lastName.
+- orders/[id]/page.tsx: order! donde aplica y address?.campo.
+
+6) Checkout Address
+- checkout/address/page.tsx: return temprano si no hay session; userStoreAddres con fallback undefined.
+- checkout/address/ui/AddressForm.tsx: address2 es string | undefined; session!.user.id en ambas ramas.
+
+7) AddToCart
+- product/[slug]/ui/AddToCart.tsx: import Size (no Sizes); removidos gender e inStock de CartProduct.
+
+8) PayPal
+- components/paypal/paypalButton.tsx: actions.order?.capture(); validar details?.id antes de paypalCheckPayment.
+
+Estado final del build
+- Build exitoso.
+- Avisos no bloqueantes: migrar .eslintignore a "ignores" en eslint.config.js;
+  considerar "type": "module" en package.json; warnings deprecados de url.parse().

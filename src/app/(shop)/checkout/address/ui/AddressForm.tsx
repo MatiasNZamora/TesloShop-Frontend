@@ -13,7 +13,7 @@ type FormIntupts = {
     firstName: string;
     lastName: string;
     address: string;
-    address2?: string | null;
+    address2?: string;
     postalCode: string;
     city: string;
     country: string;
@@ -55,13 +55,13 @@ const AddressForm = ({ countries, userStoreAddres = {} }: Props) => {
         // console.log({ data })
 
         const { rememberAddress, ...restAddress } = data;
-        
+
         setAddress(data);
 
         if (rememberAddress) {
             await setUserAddress(restAddress, session!.user.id);
         } else {
-            await deleteUserAddres(session.user.id);
+            await deleteUserAddres(session!.user.id);
         };
 
         router.push('/checkout');

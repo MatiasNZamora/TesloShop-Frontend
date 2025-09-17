@@ -1,12 +1,11 @@
-export const revalidate = 60 * 60 * 144; // 14 days
+export const revalidate = 1209600; // 14 days
 
-import { ProductSlideShow, ProductMobileSlideShow, QuantitySelector, SizeSelector, StockLabel } from "@/components";
-import { titleFont } from "@/config/fonts";
-import { Sizes } from "@/interfaces";
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "../../../../actions";
 import { Metadata, ResolvingMetadata } from "next";
 import AddToCart from "./ui/AddToCart";
+import { titleFont } from "../../../../config/fonts";
+import { ProductMobileSlideShow, ProductSlideShow, StockLabel } from "../../../../components";
 
 interface Props {
     params: Promise<{
@@ -36,6 +35,7 @@ export default async function ProductBySlugPage({ params }: Props) {
     const product = await getProductBySlug(slug);
 
     if (!slug) notFound();
+    if (!product) notFound();
 
     return (
         <div className="mt-5 mb-20 grid md:grid-cols-3 gap-3">
@@ -59,7 +59,7 @@ export default async function ProductBySlugPage({ params }: Props) {
             {/* details  */}
             <div className="col-span-1 px-5">
 
-                <StockLabel />
+                <StockLabel slug={slug} />
 
                 <h1 className={`${titleFont.className} antialiased font-bold text-3xl`}> {product?.title} </h1>
                 <p className="text-lg mb-5">${product?.price}</p>

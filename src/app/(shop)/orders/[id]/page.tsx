@@ -40,11 +40,11 @@ export default async function OrderByIdPage({ params }: Props) {
 
                     {/* cart  */}
                     <div className="flex flex-col mt-5">
-                        <OrderStatus isPaid={ order.isPaid ?? false }/>
+                        <OrderStatus isPaid={ order?.isPaid ?? false }/>
 
                         {/* Itmes */}
                         {
-                            order.OrderItem.map(item => (
+                            order!.OrderItem.map(item => (
                                 <div key={item.product.slug + '-' + item.size} className="flex mb-5">
                                     <Image
                                         src={`/products/${item.product.ProductImage[0].url}`}
@@ -75,12 +75,12 @@ export default async function OrderByIdPage({ params }: Props) {
 
                         <h2 className="text-2xl mt-2 font-bold"> Dirección de entrega </h2>
                         <div className="mb-10">
-                            <p className="text-xl"> {address.firstName} {address.lastName} </p>
-                            <p>{address.address}</p>
-                            <p>{address.address2}</p>
-                            <p>{address.postalCode}</p>
-                            <p>{address.city}, {address.countryId}</p>
-                            <p>Tel: {address.phone}</p>
+                            <p className="text-xl"> {address?.firstName} {address?.lastName} </p>
+                            <p>{address?.address}</p>
+                            <p>{address?.address2}</p>
+                            <p>{address?.postalCode}</p>
+                            <p>{address?.city}, {address?.countryId}</p>
+                            <p>Tel: {address?.phone}</p>
                         </div>
 
                         {/* divisor  */}
@@ -90,16 +90,16 @@ export default async function OrderByIdPage({ params }: Props) {
                         <div className="grid grid-cols-2">
 
                             <span>No. Productos</span>
-                            <span className="text-right"> {order.itemsInOrder === 1 ? '1 producto' : `${order.itemsInOrder} productos`} </span>
+                            <span className="text-right"> {order!.itemsInOrder === 1 ? '1 producto' : `${order!.itemsInOrder} productos`} </span>
 
                             <span>Subtotal</span>
-                            <span className="text-right"> {currencyFormat(order.subTotal)} </span>
+                            <span className="text-right"> {currencyFormat(order!.subTotal)} </span>
 
                             <span>Inpuestos (21%)</span>
-                            <span className="text-right"> {currencyFormat(order.tax)} </span>
+                            <span className="text-right"> {currencyFormat(order!.tax)} </span>
 
                             <span className="text-2xl mt-5">Total: </span>
-                            <span className="text-right text-2xl mt-5"> {currencyFormat(order.total)} </span>
+                            <span className="text-right text-2xl mt-5"> {currencyFormat(order!.total)} </span>
 
                         </div>
 
@@ -117,9 +117,9 @@ export default async function OrderByIdPage({ params }: Props) {
 
                             {/* lo remplazamos por un boton de paypal  */}
                             {
-                                order.isPaid
-                                ? ( <OrderStatus isPaid={ order.isPaid ?? false }/> ) 
-                                : ( <PaypalButton orderId={order.id} amount={order.total} /> )
+                                order!.isPaid
+                                ? ( <OrderStatus isPaid={ order!.isPaid ?? false }/> ) 
+                                : ( <PaypalButton orderId={order!.id} amount={order!.total} /> )
                             }
 
                         </div>

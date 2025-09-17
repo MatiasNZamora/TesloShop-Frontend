@@ -15,7 +15,7 @@ interface ProductToOrder {
 export const placeOrder = async (productIds: ProductToOrder[], address: Address) => {
 
     const session = await auth();
-    const userId = session.user.id;
+    const userId = session?.user?.id;
 
     // verificar session de usuario
     if (!userId) {
@@ -98,39 +98,36 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
 
                     OrderItem: {
                         createMany: {
-                            data: productIds.map(p => ({
+                            data: productIds.map((p) => ({
                                 quantity: p.quantity,
                                 productId: p.productId,
                                 size: p.size,
-                                price: products.find(product => product.id === p.productId)?.price
+                                price: products.find(product => product.id === p.productId)!.price
                             }))
                         }
                     }
                 }
             })
-            // validar si el precio es 0 lanzar un error 
 
-
-
-            // 2. Crear la Orden - Encabezado y detalle.
-
-
-
-            // 3. Crear la direccion de la orden.
-
-            const { country, rememberAddress, ...restAddress } = address;
+            // const { country } = address;
             const orderAddress = await tx.orderAddress.create({
                 data: {
-                    orderId: order.id,
-                    ...restAddress,
-                    countryId: country,
+                    countryId: address.country,
+                    orderId: order.id,   
+                    firstName: address.firstName,
+                    lastName: address.lastName,
+                    address: address.address,
+                    address2: address.address2,
+                    postalCode: address.postalCode,
+                    city: address.city,
+                    phone: address.phone,
                 }
             });
 
             return {
+                updatedProducts: updatedProducts,
                 order: order,
                 orderAddress: orderAddress,
-                updatedProducts: updatedProducts,
             }
 
         });
