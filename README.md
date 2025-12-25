@@ -91,6 +91,17 @@ Cada una aplicada según la necesidad del módulo, garantizando una experiencia 
 ```bash
 npm install
 ```
+
+### ▶️ Ejecutar las migraciones de prisma
+```bash
+npx prisma migrate dev
+```
+
+### ▶️ Ejecutar el Seed
+```bash
+npm run seed
+```
+
 ### ▶️ Iniciar el entorno de desarrollo
 ```bash
 npm run dev
@@ -108,12 +119,18 @@ docker-compose up -d
 ```
 
 ### 🧾 Variables de entorno
-Crear un archivo .env.local con las siguientes variables:
+Crear un archivo .env con las siguientes variables:
 ```bash
+DB_USER=postgres
+DB_NAME=teslo-shop
+DB_PASSWORD=123456
+
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
 NEXTAUTH_SECRET=supersecret
 NEXTAUTH_URL=http://localhost:3000
+
 DATABASE_URL=postgresql://user:password@localhost:5432/teslo
+
 MONGODB_URI=mongodb://localhost:27017/teslo
 PAYPAL_CLIENT_ID=your_paypal_client_id
 ```
